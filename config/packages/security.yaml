@@ -1,0 +1,41 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\UserInterface: plaintext # change for real app
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory: # change for real app
+            memory:
+                users:
+                    user:  { password: userpass }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        login:
+            pattern:  ^/login$
+            stateless: true
+            guard:
+                authenticators:
+                - username_password_guard_authenticator
+
+        api:
+            pattern: ^/api
+            stateless: true
+            guard:
+                authenticators:
+                - jwt_guard_authenticator
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+    # - { path: ^/admin, roles: ROLE_ADMIN }
+    # - { path: ^/profile, roles: ROLE_USER }
